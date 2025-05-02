@@ -25,6 +25,7 @@ import com.example.descuentosapp.components.MainTextField
 import com.example.descuentosapp.components.MyAlert
 import com.example.descuentosapp.components.SpaceH
 import com.example.descuentosapp.components.TwoCards
+import kotlin.math.round
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +57,7 @@ fun ContentHomeView(paddingValues: PaddingValues) {
         var descuento by rememberSaveable { mutableStateOf("") }
         var precioDescuento by rememberSaveable { mutableStateOf(0.0) }
         var totalDescuento by rememberSaveable { mutableStateOf(0.0) }
+        var showAlert by rememberSaveable { mutableStateOf(false) }
 
         TwoCards(
             title1 = "Total",
@@ -68,17 +70,12 @@ fun ContentHomeView(paddingValues: PaddingValues) {
         SpaceH()
         MainTextField(value = descuento, onValueChange = { descuento = it }, label = "Descuento%")
         SpaceH(10.dp)
-        MainButton(text = "Generar descuento") {
+        MainButton(text = "Generar descuento", color = Color(0xFF009933)) {
             if(precio.isNotEmpty() && descuento.isNotEmpty()){
                 totalDescuento = calcularDescuento(precio.toDouble(), descuento.toDouble())
                 precioDescuento = calcularPrecio(precio.toDouble(), descuento.toDouble())
             }else{
-                MyAlert(
-                    title = "Alerta",
-                    message = "Escribe el precio y descuento",
-                    confirmText = "Aceptar",
-                    onConfirmClick = { }
-                ) { }
+                showAlert = true
             }
         }
         SpaceH()
@@ -90,17 +87,25 @@ fun ContentHomeView(paddingValues: PaddingValues) {
 
         }
 
+        if(showAlert){
+            MyAlert(
+                title = "Alerta",
+                message = "Escribe el precio y descuento",
+                confirmText = "Aceptar",
+                onConfirmClick = { showAlert = false },
+            ) { }
+        }
     }
 }
 
 fun calcularPrecio(precio: Double, descuento: Double): Double{
     val res = precio - calcularDescuento(precio, descuento)
 
-    return kotlin.math.round(res * 100) / 100
+    return round(res * 100) / 100
 }
 
 fun calcularDescuento(precio: Double, descuento: Double): Double{
     val res = precio * ( 1 - descuento / 100 )
 
-    return kotlin.math.round(res * 100) / 100
+    return round(res * 100) / 100
 }

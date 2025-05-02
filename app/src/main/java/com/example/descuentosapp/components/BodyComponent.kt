@@ -1,5 +1,6 @@
 package com.example.descuentosapp.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -105,7 +107,10 @@ fun MyAlert(
                 )
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 )
                 SpaceH()
                 Text(
